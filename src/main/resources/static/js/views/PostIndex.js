@@ -9,7 +9,8 @@ export default function PostIndex(props) {
               <h3>Lists of posts</h3>
             <div>
                 ${props.posts.map(post => `<h3>${post.title}</h3>`).join('')} 
-                <button id="editPost" name="editPost">Edit Post</button>  
+                <button id="editPost" name="editPost">Edit Post</button>
+                <button id="deletePost" name="deletePost">Delete Post</button>  
             </div>
             
             <h3>Add a post</h3>
@@ -28,14 +29,28 @@ export default function PostIndex(props) {
 
 
 
+
 export function postSetup() {
     addPostHandler();
     editPostHandler();
-    // deletePostHandler setup
+    deletePostHandler();
+}
+
+function deletePostHandler() {
+    const deleteButton = document.querySelector("#deletePost")
+    deleteButton.addEventListener("click", function () {
+        console.log("is the delete button setup?")
+    })
 }
 
 function editPostHandler() {
-    const editButton = document.querySelector("#editPost")
+    const editButton = document.querySelectorAll("#editPost");
+    editButton.forEach(function (btn) {
+        btn.addEventListener("click", function (event) {
+            console.log("this edit button working?")
+        })
+    })
+
 }
 
 function addPostHandler() {
