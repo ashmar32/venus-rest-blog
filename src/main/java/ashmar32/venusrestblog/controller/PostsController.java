@@ -10,6 +10,7 @@ import java.util.List;
 @RequestMapping(value = "/api/posts", produces = "application/json")
 public class PostsController {
     private List<Post> posts = new ArrayList<>();
+    private long nextId = 1;
 
     @GetMapping("")
 //    @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -43,6 +44,9 @@ public class PostsController {
     @PostMapping("")
     public void createPost(@RequestBody Post newPost) {
 //        System.out.println(newPost);
+//      assign nextId to the new post
+        newPost.setId(nextId);
+        nextId++;
         posts.add(newPost);
     }
 
