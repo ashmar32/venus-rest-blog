@@ -1,4 +1,4 @@
-package ashmar32.venusrestblog;
+package ashmar32.venusrestblog.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
