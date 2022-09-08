@@ -9,34 +9,72 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/posts", produces = "application/json")
 public class PostsController {
-    @GetMapping("/")
+    private List<Post> posts = new ArrayList<>();
 
-//    @RequestMapping(value = "/", method = RequestMethod.GET) is the same as @GetMapping either can be used
-    private List<Post> fetchPosts() {
-        List<Post> posts = new ArrayList<>();
-        posts.add(new Post(1L, "Post 1", "This is Post 1"));
-        posts.add(new Post(2L, "Post 2", "This is Post 2"));
-
+    @GetMapping("")
+//    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public List<Post> fetchPosts() {
         return posts;
     }
-@GetMapping("/{id}")
-public Post fetchPostById(@PathVariable long id) {
-    // TODO: search through the list of posts
-//    and return the post that matches the given id
-    for (Post post:
-         ) {
 
+    @GetMapping("/{id}")
+    public Post fetchPostById(@PathVariable long id) {
+        // search through the list of posts
+        // and return the post that matches the given id
+        Post post = findPostById(id);
+        if (post == null) {
+
+            // what to do if we don't find it
+            throw new RuntimeException("I don't know what I am doing");
+        }
+        return post;
     }
 
-    }
-}
-    @GetMapping("test")
-    public String doTest() {
-        return "<h1>hello</h1>";
+    private Post findPostById(long id) {
+        for (Post post: posts) {
+            if(post.getId() == id) {
+                return post;
+            }
+        }
+        // didn't find it so do something
+        return null;
     }
 
-    @PostMapping("/")
-    private void createPost(@RequestBody Post newPost) {
+    @PostMapping("")
+    public void createPost(@RequestBody Post newPost) {
+//        System.out.println(newPost);
+        posts.add(newPost);
+    }
 
+    @DeleteMapping("/{id}")
+    public void deletePostById(@PathVariable long id) {
+        // search through the list of posts
+        // and delete the post that matches the given id
+        Post post = findPostById(id);
+        if(post != null) {
+            posts.remove(post);
+            return;
+        }
+        // what to do if we don't find it
+        throw new RuntimeException("Post not found");
+    }
+
+    @PutMapping("/{id}")
+    public void updatePost(@RequestBody Post updatedPost, @PathVariable long id) {
+        // find the post to update in the posts list
+
+        Post post = findPostById(id);
+        if(post == null) {
+            System.out.println("Post not found");
+        } else {
+            if(updatedPost.getTitle() != null) {
+                post.setTitle(updatedPost.getTitle());
+            }
+            if(updatedPost.getContent() != null) {
+                post.setContent(updatedPost.getContent());
+            }
+            return;
+        }
+        throw new RuntimeException("Post not found");
     }
 }
