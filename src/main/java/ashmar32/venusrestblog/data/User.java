@@ -1,7 +1,6 @@
 package ashmar32.venusrestblog.data;
 
 import lombok.*;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 
@@ -13,7 +12,7 @@ import java.time.LocalDate;
 
 public class User {
     private long id;
-    private String userName;
+    private String username;
     private String email;
     private String password;
     private LocalDate createdAt;
