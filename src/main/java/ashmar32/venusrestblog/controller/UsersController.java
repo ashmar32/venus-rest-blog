@@ -1,8 +1,10 @@
 package ashmar32.venusrestblog.controller;
 
 import ashmar32.venusrestblog.data.User;
+import ashmar32.venusrestblog.misc.FieldHelper;
 import ashmar32.venusrestblog.repository.UsersRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -70,9 +72,20 @@ public void deleteUserById(@PathVariable long id) {
 
 @PutMapping("/{id}")
 public void updateUser(@RequestBody User updatedUser, @PathVariable long id) {
-    // find the post to update in the posts list
-    updatedUser.setId(id);
-    usersRepository.save(updatedUser);
+    // get the original record from the db
+    Optional<User> userOptional = usersRepository.findById(id);
+//    return 404 if user isn't found
+    if (userOptional.isEmpty()) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + id + " not found");
+    }
+//    get the user from the optional, so that we no longer have to deal with the optional
+    User originalUser = userOptional.get();
+// merge the changed data in updatedUser with originalUser
+    BeanUtils.copyProperties(updatedUser, originalUser, FieldHelper.getNullPropertyNames(updatedUser));
+// originalUser now has the merged data (changes + original data)
+    originalUser.setId(id);
+// save
+    usersRepository.save(originalUser);
 }
 
 @PutMapping("/{id}/updatePassword")
