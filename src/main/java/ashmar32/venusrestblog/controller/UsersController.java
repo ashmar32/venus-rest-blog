@@ -90,6 +90,11 @@ public void updateUser(@RequestBody User updatedUser, @PathVariable long id) {
 
 @PutMapping("/{id}/updatePassword")
 private void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @RequestParam String newPassword) {
+    Optional<User> userOptional = usersRepository.findById(id);
+    if (userOptional.isEmpty()) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + id + " not found");
+    }
+
     User user = usersRepository.findById(id).get();
 //    if(user == null) {
 //        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User id " + id + " not found");
