@@ -1,30 +1,33 @@
 package ashmar32.venusrestblog.controller;
 
 import ashmar32.venusrestblog.data.Category;
-import ashmar32.venusrestblog.data.Post;
+import ashmar32.venusrestblog.repository.CategoriesRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/categories", produces = "application/json")
 
 public class CategoriesController {
+    private CategoriesRepository categoriesRepository;
 
     @GetMapping("")
-    private Category fetchPostsByCategory(@RequestParam String categoryName) {
-        Category category = new Category(1L, categoryName, null);
-
-        ArrayList<Post> fakePosts = new ArrayList<>();
-        fakePosts.add(new Post(1L, "Bunnies Rock!", "for real!", null, new ArrayList<>(Arrays.asList(new Category(1L, categoryName, null)))));
-        fakePosts.add(new Post(2L, "Get a life", "for really real", null, new ArrayList<>(Arrays.asList(new Category(1L, categoryName, null)))));
-        category.setPosts(fakePosts);
-
-        return category;
+    private List<Category> fetchAllCategories(@RequestParam String categoryName) {
+        if(categoryName != null & categoryName.length() > 0) {
+            Category cat = categoriesRepository.findByName(categoryName);
+            if(cat == null) {
+                return null;
+            }
+            return new ArrayList<>(List.of(categoriesRepository.findByName(categoryName)));
+        }
+        return categoriesRepository.findAll();
     }
 
 }
