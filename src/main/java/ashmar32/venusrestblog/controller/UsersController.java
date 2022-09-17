@@ -67,6 +67,11 @@ public void createUser(@RequestBody User newUser) {
 
 @DeleteMapping("/{id}")
 public void deleteUserById(@PathVariable long id) {
+    Optional<User> userOptional = usersRepository.findById(id);
+//    return 404 if user isn't found
+    if (userOptional.isEmpty()) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + id + " not found");
+    }
     usersRepository.deleteById(id);
 }
 

@@ -53,6 +53,7 @@ function generatePostsHTML() {
 
         let categories = '';
         if(post.categories) {
+            console.log("in cat if")
             for (let j = 0; j < post.categories.length; j++) {
                 if (categories !== "") {
                     categories += ", ";
@@ -62,14 +63,15 @@ function generatePostsHTML() {
         }
         let authorName = "";
         if(post.author) {
-            authorName = post.author.name;
+            console.log("in author if")
+            authorName = post.author.username;
         }
 
         postsHTML += `<tr>
             <td>${post.title}</td>
             <td>${post.content}</td>
-            <td>${categories}</td>
             <td>${authorName}</td>
+            <td>${categories}</td>
             <td><button data-id=${post.id} class="button btn-primary editPost">Edit</button></td>
             <td><button data-id=${post.id} class="button btn-danger deletePost">Delete</button></td>
             </tr>`;
