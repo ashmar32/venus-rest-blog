@@ -39,7 +39,7 @@ public class PostsController {
     @PostMapping("")
     public void createPost(@RequestBody Post newPost) {
         // use a fake author for the post
-        User author = usersRepository.findById(2L).get();
+        User author = usersRepository.findById(8L).get();
 //        System.out.println(usersRepository.findById(1L).get());
         newPost.setAuthor(author);
 
