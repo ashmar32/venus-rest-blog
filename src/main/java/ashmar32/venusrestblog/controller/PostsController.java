@@ -7,6 +7,7 @@ import ashmar32.venusrestblog.repository.CategoriesRepository;
 import ashmar32.venusrestblog.repository.PostsRepository;
 import ashmar32.venusrestblog.data.Post;
 import ashmar32.venusrestblog.repository.UsersRepository;
+import ashmar32.venusrestblog.services.EmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/api/posts", produces = "application/json")
 public class PostsController {
+    private EmailService emailService;
     private PostsRepository postsRepository;
     private UsersRepository usersRepository;
     private CategoriesRepository categoriesRepository;
