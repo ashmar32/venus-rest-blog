@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service("mailService")
 public class EmailService {
 
+//    Why is this saying it needs a constructor?
     @Autowired
     public JavaMailSender emailSender;
 
