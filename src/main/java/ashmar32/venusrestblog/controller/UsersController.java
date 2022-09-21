@@ -8,6 +8,7 @@ import ashmar32.venusrestblog.repository.UsersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,6 +24,7 @@ import java.util.Optional;
 
 public class UsersController {
     private UsersRepository usersRepository;
+    private PasswordEncoder passwordEncoder;
 
 @GetMapping("")
 //    @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -81,8 +83,8 @@ public void createUser(@RequestBody User newUser) {
     newUser.setRole(UserRole.USER);
 
     String plainTextPassword = newUser.getPassword();
-//    String encryptedPassword = passwordEncoder.encode(plainTextPassword);
-//    newUser.setPassword(encryptedPassword);
+    String encryptedPassword = passwordEncoder.encode(plainTextPassword);
+    newUser.setPassword(encryptedPassword);
 
     // don't need the below line at this point but just for kicks
     newUser.setCreatedAt(LocalDate.now());
