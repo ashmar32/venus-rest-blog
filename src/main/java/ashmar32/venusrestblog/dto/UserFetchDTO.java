@@ -9,9 +9,9 @@ import lombok.*;
 @ToString
 
 // THIS IS THE USER DTO RETURNER WHEN CALLING/ API/USERS (OR FETCH ALL USERS)
-public class UpdateUserDto {
+public class UserFetchDTO {
     private long id;
-    private String username;
+    private String userName;
     private String email;
 
 //    TODO: add constructors, getters, and setters: completed by lombok
